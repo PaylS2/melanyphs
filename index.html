@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Melanyphs</title>
     <style>
-        /* Configuración básica y fondo de emojis */
+        /* Configuración básica */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d0d0d;
+            background-color: #08080c;
             color: #ffffff;
             display: flex;
             justify-content: center;
@@ -20,50 +20,53 @@
             position: relative;
         }
 
-        /* Capa de fondo con patrón de emojis */
-        body::before {
-            content: "🔥 🍆 💋 👠 🌶️ 🍑 👅 ✨";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 200%;
-            font-size: 24px;
-            line-height: 3;
-            letter-spacing: 15px;
-            opacity: 0.15; /* Controla qué tan transparente se ve el fondo */
-            z-index: 1;
-            pointer-events: none;
-            animation: moverFondo 60s linear infinite;
-        }
-
-        @keyframes moverFondo {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50%, -50%); }
-        }
-
-        /* Contenedor principal */
+        /* Contenedor principal con efecto de luz intermitente lenta */
         .container {
-            background: rgba(20, 20, 20, 0.85);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ff2a5f;
+            background: rgba(15, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 2px solid #bc2aff;
             border-radius: 20px;
-            padding: 30px 25px;
+            padding: 35px 25px;
             width: 90%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(255, 42, 95, 0.3);
             z-index: 2;
+            position: relative;
+            animation: pulsoNeonBorde 5s ease-in-out infinite alternate;
         }
 
-        /* Cabecera */
+        /* Cabecera con luz intermitente violeta */
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             margin-bottom: 30px;
-            color: #ff2a5f;
+            color: #e0aaff;
             text-transform: lowercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 42, 95, 0.6);
+            letter-spacing: 3px;
+            animation: pulsoNeonTexto 5s ease-in-out infinite alternate;
+        }
+
+        /* Animación de la luz intermitente lenta para el borde */
+        @keyframes pulsoNeonBorde {
+            0% {
+                border-color: #bc2aff;
+                box-shadow: 0 0 15px rgba(188, 42, 255, 0.2), inset 0 0 10px rgba(188, 42, 255, 0.1);
+            }
+            100% {
+                border-color: #ff2a5f;
+                box-shadow: 0 0 35px rgba(255, 42, 95, 0.6), inset 0 0 20px rgba(255, 42, 95, 0.3);
+            }
+        }
+
+        /* Animación de la luz intermitente lenta para el texto */
+        @keyframes pulsoNeonTexto {
+            0% {
+                color: #bc2aff;
+                text-shadow: 0 0 10px rgba(188, 42, 255, 0.5), 0 0 20px rgba(188, 42, 255, 0.3);
+            }
+            100% {
+                color: #ff5e97;
+                text-shadow: 0 0 20px rgba(255, 42, 95, 0.9), 0 0 40px rgba(255, 42, 95, 0.6);
+            }
         }
 
         /* Lista de opciones */
@@ -74,28 +77,31 @@
         }
 
         .item-tips {
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.04);
+            margin-bottom: 16px;
             padding: 18px 15px;
-            border-radius: 12px;
-            border-left: 5px solid #ff2a5f;
-            font-size: 1.1rem;
+            border-radius: 14px;
+            border-left: 5px solid #bc2aff;
+            font-size: 1.15rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255, 255, 255, 0.02);
         }
 
         .item-tips:hover {
-            transform: scale(1.03);
-            background: rgba(255, 42, 95, 0.1);
+            transform: translateY(-3px);
+            background: rgba(188, 42, 255, 0.08);
+            border-left-color: #ff2a5f;
+            box-shadow: 0 5px 15px rgba(255, 42, 95, 0.15);
         }
 
         /* Resalte para los Tips */
         .tips-cantidad {
             font-weight: bold;
             color: #ffbd03;
-            text-shadow: 0 0 5px rgba(255, 189, 3, 0.4);
+            text-shadow: 0 0 8px rgba(255, 189, 3, 0.5);
             flex-shrink: 0;
             margin-right: 10px;
         }
@@ -104,9 +110,59 @@
             text-align: right;
             flex-grow: 1;
         }
+
+        /* --- Sistema de Emojis como Burbujas Flotantes --- */
+        .burbuja {
+            position: absolute;
+            bottom: -50px;
+            font-size: 28px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.18; /* Ajusta la transparencia aquí */
+            animation: flotarBurbuja 12s linear infinite;
+        }
+
+        @keyframes flotarBurbuja {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.18;
+            }
+            90% {
+                opacity: 0.18;
+            }
+            100% {
+                transform: translateY(-105vh) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Variación de tiempos y posiciones de las burbujas para que se vean naturales */
+        .b1 { left: 5%;  animation-duration: 14s; animation-delay: 0s; }
+        .b2 { left: 15%; animation-duration: 18s; animation-delay: 3s; font-size: 35px; }
+        .b3 { left: 30%; animation-duration: 12s; animation-delay: 1s; }
+        .b4 { left: 45%; animation-duration: 20s; animation-delay: 5s; font-size: 24px; }
+        .b5 { left: 60%; animation-duration: 15s; animation-delay: 2s; }
+        .b6 { left: 75%; animation-duration: 17s; animation-delay: 7s; font-size: 38px; }
+        .b7 { left: 88%; animation-duration: 13s; animation-delay: 4s; }
+        .b8 { left: 23%; animation-duration: 16s; animation-delay: 9s; }
+        .b9 { left: 55%; animation-duration: 19s; animation-delay: 11s; }
     </style>
 </head>
 <body>
+
+    <div class="burbuja b1">🔥</div>
+    <div class="burbuja b2">🍆</div>
+    <div class="burbuja b3">💋</div>
+    <div class="burbuja b4">👠</div>
+    <div class="burbuja b5">🍑</div>
+    <div class="burbuja b6">👅</div>
+    <div class="burbuja b7">🌶️</div>
+    <div class="burbuja b8">💋</div>
+    <div class="burbuja b9">🔥</div>
 
     <div class="container">
         <h1>melanyphs</h1>
